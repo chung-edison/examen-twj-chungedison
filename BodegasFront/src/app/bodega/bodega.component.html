@@ -1,7 +1,6 @@
 <div class="container">
 
-  <h1>Lista de Bodegas</h1>
-  <h2>{{error}}</h2>
+  <h1>{{title}}</h1>
   <form class="animated fadeIn" (ngSubmit)="crearBodega(nuevaBodegaForm)" #nuevaBodegaForm="ngForm">
     <div class="form-group">
       <label>Nombre de la bodega:</label>
@@ -36,7 +35,9 @@
         <h4><b>Dirección:</b> {{bodega.direccion}}</h4>
         <h4><b>Capacidad (en toneladas):</b> {{bodega.capacidadEnToneladas}}</h4>
       </div>
-      <div class="col-sm-2"></div>
+      <div class="col-sm-2">
+        <a class="btn btn-block btn-warning" [routerLink]="[bodega.id,'items']">Ver Items</a>
+      </div>
       <div class="col-sm-2">
         <button class="btn btn-block btn-info" (click)="bodega.cerrado = !bodega.cerrado">Editar</button>
         <button class="btn btn-block btn-danger" (click)="borrarBodega(bodega.id)">Borrar</button>

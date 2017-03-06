@@ -10,7 +10,7 @@ import {NgForm} from "@angular/forms";
 })
 export class BodegaComponent implements OnInit {
 
-  title: string = 'Registro de Bodegas';
+  title: string = 'Lista de Bodegas';
   nuevaBodega = {};
   bodegas = [];
   disabledButtons = {
@@ -46,7 +46,9 @@ export class BodegaComponent implements OnInit {
       capacidadEnToneladas: formulario.value.capacidadEnToneladas
     }).subscribe(
       (res) => {
-        this.bodegas.push(res.json());
+        let bodegaCreada = res.json();
+        bodegaCreada.cerrado = true;
+        this.bodegas.push(bodegaCreada);
         this.nuevaBodega = {};
         this.disabledButtons.nuevaBodegaFormButton = false;
       },

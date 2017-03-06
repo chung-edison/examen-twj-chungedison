@@ -1,3 +1,80 @@
-<p>
-  item works!
-</p>
+<div class="container">
+
+  <h1>{{title}}</h1>
+  <form class="animated fadeIn" (ngSubmit)="crearItem(nuevoItemForm)" #nuevoItemForm="ngForm">
+    <div class="form-group">
+      <label>Nombre del item:</label>
+      <input type="text" class="form-control" placeholder="Item" name="nombre"
+             [(ngModel)]="nuevoItem.nombre"
+             #nombre="ngModel"
+             #nombreElm>
+    </div>
+    <div class="form-group">
+      <label>Cantidad:</label>
+      <input type="number" class="form-control" min="0" name="cantidad"
+             [(ngModel)]="nuevoItem.cantidad"
+             #cantidad="ngModel"
+             #cantidadElm>
+    </div>
+    <div class="form-group">
+      <label>Peso:</label>
+      <input type="number" class="form-control" min="0" name="peso"
+             [(ngModel)]="nuevoItem.peso"
+             #peso="ngModel"
+             #pesoElm>
+    </div>
+    <button [disabled]="!nuevoItemForm.valid" type="submit"
+            class="btn btn-block btn-success">Registrar Item
+    </button>
+  </form>
+
+  <br>
+  <div *ngFor="let item of items">
+    <div class="row">
+      <div class="col-sm-8">
+        <h4><b>Item:</b> {{item.nnombre}}</h4>
+        <h4><b>Cantidad:</b> {{item.cantidad}}</h4>
+        <h4><b>Peso:</b> {{item.peso}}</h4>
+      </div>
+      <div class="col-sm-2"></div>
+      <div class="col-sm-2">
+        <button class="btn btn-block btn-info" (click)="item.cerrado = !item.cerrado">Editar</button>
+        <button class="btn btn-block btn-danger" (click)="borrarItem(item.id)">Borrar</button>
+      </div>
+    </div>
+    <div [hidden]="item.cerrado">
+      <form class="animated fadeIn" (ngSubmit)="actualizarItem(item)" #nuevoItemForm="ngForm">
+        <div class="form-group">
+          <label>Nombre del item:</label>
+          <input type="text" class="form-control" placeholder="Item" name="nombre"
+                 [(ngModel)]="item.nnombre"
+                 #nombre="ngModel"
+                 #nombreElm>
+        </div>
+        <div class="form-group">
+          <label>Cantidad:</label>
+          <input type="number" class="form-control" min="0" name="cantidad"
+                 [(ngModel)]="item.cantidad"
+                 #cantidad="ngModel"
+                 #cantidadElm>
+        </div>
+        <div class="form-group">
+          <label>Peso:</label>
+          <input type="number" class="form-control" min="0" name="peso"
+                 [(ngModel)]="item.peso"
+                 #peso="ngModel"
+                 #pesoElm>
+        </div>
+        <button [disabled]="disabledButtons.nuevoItemFormButton||!nuevoItemForm.valid" type="submit"
+                class="btn btn-block btn-success">Actualizar Item
+        </button>
+        <button type="button"
+                class="btn btn-block btn-warning"
+                (click)="item.cerrado = !item.cerrado">
+          Cancelar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+

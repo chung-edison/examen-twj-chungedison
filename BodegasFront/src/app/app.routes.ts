@@ -6,10 +6,10 @@ import {HomeComponent} from "./home/home.component";
 
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'bodega', component: BodegaComponent},
-  {path: 'bodega/:idBodega/item', component: ItemComponent}
+  {path: '', redirectTo: 'inicio', pathMatch: 'full'},
+  {path: 'inicio', component: HomeComponent},
+  {path: 'bodegas', component: BodegaComponent},
+  {path: 'bodegas/:idBodega/items', component: ItemComponent}
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
