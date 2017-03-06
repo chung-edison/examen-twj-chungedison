@@ -18,7 +18,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var MasterURLService = (function () {
     function MasterURLService() {
-        this._url = "http://localhost:1337/";
+        //this._url = "http://localhost:1337/";
+        this._url = "https://examen-twj-chungedison-chungedison.c9users.io/";
     }
     Object.defineProperty(MasterURLService.prototype, "url", {
         get: function () {
@@ -203,8 +204,9 @@ var ItemComponent = (function () {
         this._ActivatedRoute = _ActivatedRoute;
         this._http = _http;
         this._masterURL = _masterURL;
-        this.title = 'Lista de Items ';
+        this.title = 'Lista de Items';
         this.nuevoItem = {};
+        this.bodega = {};
         this.items = [];
         this.disabledButtons = {
             nuevoItemFormButton: false
@@ -228,6 +230,13 @@ var ItemComponent = (function () {
             }, function (err) {
                 console.log(err);
             });
+        });
+        this._http.get(this._masterURL.url + 'Bodega/' + this._params.idBodega)
+            .subscribe(function (res) {
+            console.log(res.json());
+            _this.bodega = res.json();
+        }, function (err) {
+            console.log(err);
         });
     };
     ItemComponent.prototype.crearItem = function (formulario) {
@@ -535,7 +544,7 @@ module.exports = module.exports.toString();
 /***/ 515:
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\"\n              data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"/inicio\">Bodegas</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li><a href=\"/bodegas\">Listar Bodegas</a></li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\"\n              data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" [routerLink]=\"['/inicio']\">Bodegas</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li><a [routerLink]=\"['/bodegas']\">Listar Bodegas</a></li>\n        <li><a [routerLink]=\"['/bodegas/1/items']\">Listar Items</a></li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -549,14 +558,14 @@ module.exports = "<div class=\"container\">\n\n  <h1>{{title}}</h1>\n  <form cla
 /***/ 517:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"jumbotron\">\n    <h1>Bodegas</h1>\n    <p>Examen de Tecnologías Web con JavaScript</p>\n    <p>Semestre 2016-B</p>\n    <p><a class=\"btn btn-primary btn-lg\" href=\"/bodegas\" role=\"button\">Ver Bodegas</a></p>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container\">\n  <div class=\"jumbotron\">\n    <h1>Bodegas</h1>\n    <p>Examen de Tecnologías Web con JavaScript</p>\n    <p>Semestre 2016-B</p>\n    <p><a class=\"btn btn-primary btn-lg\" [routerLink]=\"['/bodegas']\" role=\"button\">Ver Bodegas</a></p>\n  </div>\n</div>\n"
 
 /***/ }),
 
 /***/ 518:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n  <h1>{{title}}</h1>\n  <form class=\"animated fadeIn\" (ngSubmit)=\"crearItem(nuevoItemForm)\" #nuevoItemForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label>Nombre del item:</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"Item\" name=\"nombre\"\n             [(ngModel)]=\"nuevoItem.nombre\"\n             #nombre=\"ngModel\"\n             #nombreElm>\n    </div>\n    <div class=\"form-group\">\n      <label>Cantidad:</label>\n      <input type=\"number\" class=\"form-control\" min=\"0\" name=\"cantidad\"\n             [(ngModel)]=\"nuevoItem.cantidad\"\n             #cantidad=\"ngModel\"\n             #cantidadElm>\n    </div>\n    <div class=\"form-group\">\n      <label>Peso:</label>\n      <input type=\"number\" class=\"form-control\" min=\"0\" name=\"peso\"\n             [(ngModel)]=\"nuevoItem.peso\"\n             #peso=\"ngModel\"\n             #pesoElm>\n    </div>\n    <button [disabled]=\"!nuevoItemForm.valid\" type=\"submit\"\n            class=\"btn btn-block btn-success\">Registrar Item\n    </button>\n  </form>\n\n  <br>\n  <div *ngFor=\"let item of items\">\n    <div class=\"row\">\n      <div class=\"col-sm-8\">\n        <h4><b>Item:</b> {{item.nnombre}}</h4>\n        <h4><b>Cantidad:</b> {{item.cantidad}}</h4>\n        <h4><b>Peso:</b> {{item.peso}}</h4>\n      </div>\n      <div class=\"col-sm-2\"></div>\n      <div class=\"col-sm-2\">\n        <button class=\"btn btn-block btn-info\" (click)=\"item.cerrado = !item.cerrado\">Editar</button>\n        <button class=\"btn btn-block btn-danger\" (click)=\"borrarItem(item.id)\">Borrar</button>\n      </div>\n    </div>\n    <div [hidden]=\"item.cerrado\">\n      <form class=\"animated fadeIn\" (ngSubmit)=\"actualizarItem(item)\" #nuevoItemForm=\"ngForm\">\n        <div class=\"form-group\">\n          <label>Nombre del item:</label>\n          <input type=\"text\" class=\"form-control\" placeholder=\"Item\" name=\"nombre\"\n                 [(ngModel)]=\"item.nnombre\"\n                 #nombre=\"ngModel\"\n                 #nombreElm>\n        </div>\n        <div class=\"form-group\">\n          <label>Cantidad:</label>\n          <input type=\"number\" class=\"form-control\" min=\"0\" name=\"cantidad\"\n                 [(ngModel)]=\"item.cantidad\"\n                 #cantidad=\"ngModel\"\n                 #cantidadElm>\n        </div>\n        <div class=\"form-group\">\n          <label>Peso:</label>\n          <input type=\"number\" class=\"form-control\" min=\"0\" name=\"peso\"\n                 [(ngModel)]=\"item.peso\"\n                 #peso=\"ngModel\"\n                 #pesoElm>\n        </div>\n        <button [disabled]=\"disabledButtons.nuevoItemFormButton||!nuevoItemForm.valid\" type=\"submit\"\n                class=\"btn btn-block btn-success\">Actualizar Item\n        </button>\n        <button type=\"button\"\n                class=\"btn btn-block btn-warning\"\n                (click)=\"item.cerrado = !item.cerrado\">\n          Cancelar\n        </button>\n      </form>\n    </div>\n  </div>\n</div>\n\n"
+module.exports = "<div class=\"container\">\n\n  <h1>{{title}} en la bodega - {{bodega.nombre}}</h1>\n  <form class=\"animated fadeIn\" (ngSubmit)=\"crearItem(nuevoItemForm)\" #nuevoItemForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label>Nombre del item:</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"Item\" name=\"nombre\"\n             [(ngModel)]=\"nuevoItem.nombre\"\n             #nombre=\"ngModel\"\n             #nombreElm>\n    </div>\n    <div class=\"form-group\">\n      <label>Cantidad:</label>\n      <input type=\"number\" class=\"form-control\" min=\"0\" name=\"cantidad\"\n             [(ngModel)]=\"nuevoItem.cantidad\"\n             #cantidad=\"ngModel\"\n             #cantidadElm>\n    </div>\n    <div class=\"form-group\">\n      <label>Peso:</label>\n      <input type=\"number\" class=\"form-control\" min=\"0\" name=\"peso\"\n             [(ngModel)]=\"nuevoItem.peso\"\n             #peso=\"ngModel\"\n             #pesoElm>\n    </div>\n    <button [disabled]=\"!nuevoItemForm.valid\" type=\"submit\"\n            class=\"btn btn-block btn-success\">Registrar Item\n    </button>\n  </form>\n\n  <br>\n  <div *ngFor=\"let item of items\">\n    <div class=\"row\">\n      <div class=\"col-sm-8\">\n        <h4><b>Item:</b> {{item.nnombre}}</h4>\n        <h4><b>Cantidad:</b> {{item.cantidad}}</h4>\n        <h4><b>Peso:</b> {{item.peso}}</h4>\n      </div>\n      <div class=\"col-sm-2\"></div>\n      <div class=\"col-sm-2\">\n        <button class=\"btn btn-block btn-info\" (click)=\"item.cerrado = !item.cerrado\">Editar</button>\n        <button class=\"btn btn-block btn-danger\" (click)=\"borrarItem(item.id)\">Borrar</button>\n      </div>\n    </div>\n    <div [hidden]=\"item.cerrado\">\n      <form class=\"animated fadeIn\" (ngSubmit)=\"actualizarItem(item)\" #nuevoItemForm=\"ngForm\">\n        <div class=\"form-group\">\n          <label>Nombre del item:</label>\n          <input type=\"text\" class=\"form-control\" placeholder=\"Item\" name=\"nombre\"\n                 [(ngModel)]=\"item.nnombre\"\n                 #nombre=\"ngModel\"\n                 #nombreElm>\n        </div>\n        <div class=\"form-group\">\n          <label>Cantidad:</label>\n          <input type=\"number\" class=\"form-control\" min=\"0\" name=\"cantidad\"\n                 [(ngModel)]=\"item.cantidad\"\n                 #cantidad=\"ngModel\"\n                 #cantidadElm>\n        </div>\n        <div class=\"form-group\">\n          <label>Peso:</label>\n          <input type=\"number\" class=\"form-control\" min=\"0\" name=\"peso\"\n                 [(ngModel)]=\"item.peso\"\n                 #peso=\"ngModel\"\n                 #pesoElm>\n        </div>\n        <button [disabled]=\"disabledButtons.nuevoItemFormButton||!nuevoItemForm.valid\" type=\"submit\"\n                class=\"btn btn-block btn-success\">Actualizar Item\n        </button>\n        <button type=\"button\"\n                class=\"btn btn-block btn-warning\"\n                (click)=\"item.cerrado = !item.cerrado\">\n          Cancelar\n        </button>\n      </form>\n    </div>\n  </div>\n</div>\n\n"
 
 /***/ }),
 

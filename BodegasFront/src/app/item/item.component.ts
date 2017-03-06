@@ -10,9 +10,10 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
-  title: string = 'Lista de Items ';
+  title: string = 'Lista de Items';
   private _params: any;
   nuevoItem = {};
+  bodega = {};
   items = [];
   disabledButtons = {
     nuevoItemFormButton: false
@@ -38,10 +39,20 @@ export class ItemComponent implements OnInit {
                 });
             },
             (err) => {
-              console.log(err)
+              console.log(err);
             }
           )
       });
+    this._http.get(this._masterURL.url + 'Bodega/' + this._params.idBodega)
+      .subscribe(
+        (res: Response) => {
+          console.log(res.json());
+          this.bodega = res.json();
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
   }
 
   crearItem(formulario: NgForm) {
