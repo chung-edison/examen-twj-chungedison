@@ -32,26 +32,6 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
 
-  '/': {
-    view: 'homepage'
-  },
-  '/home': {
-    view: 'homepage'
-  },
-
-  'get /bodegas': 'RutasController.listarBodegas',
-  'get /nuevabodega': {
-    view: 'crearbodega'
-  },
-  'post /nuevabodega': 'BodegaController.crearBodega',
-  'get /editarbodega': 'RutasController.editarBodega',
-
-  'get /nuevoitem': 'RutasController.crearItem',
-  'get /editaritem': 'RutasController.editarItem',
-
-  'get /error': 'RutasController.error'
-
-
   /***************************************************************************
    *                                                                          *
    * Custom routes here...                                                    *

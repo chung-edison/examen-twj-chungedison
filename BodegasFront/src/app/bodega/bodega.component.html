@@ -1,0 +1,79 @@
+<div class="container">
+
+  <h1>Lista de Bodegas</h1>
+  <h2>{{error}}</h2>
+  <form class="animated fadeIn" (ngSubmit)="crearBodega(nuevaBodegaForm)" #nuevaBodegaForm="ngForm">
+    <div class="form-group">
+      <label>Nombre de la bodega:</label>
+      <input required type="text" class="form-control" placeholder="Bodega" name="nombre"
+             [(ngModel)]="nuevaBodega.nombre"
+             #nombre="ngModel"
+             #nombreElm>
+    </div>
+    <div class="form-group">
+      <label>Dirección de la bodega:</label>
+      <input required type="text" class="form-control" placeholder="Dirección" name="direccion"
+             [(ngModel)]="nuevaBodega.direccion"
+             #direccion="ngModel"
+             #direccionElm>
+    </div>
+    <div class="form-group">
+      <label>Capacidad de la bodega (en toneladas):</label>
+      <input required type="number" class="form-control" min="0" name="capacidadEnToneladas"
+             [(ngModel)]="nuevaBodega.capacidadEnToneladas"
+             #capacidadEnToneladas="ngModel"
+             #capacidadEnToneladasElm>
+    </div>
+    <button [disabled]="!nuevaBodegaForm.valid" type="submit"
+            class="btn btn-block btn-success">Registrar Bodega
+    </button>
+  </form>
+  <br>
+  <div *ngFor="let bodega of bodegas">
+    <div class="row">
+      <div class="col-sm-8">
+        <h4><b>Bodega:</b> {{bodega.nombre}}</h4>
+        <h4><b>Dirección:</b> {{bodega.direccion}}</h4>
+        <h4><b>Capacidad (en toneladas):</b> {{bodega.capacidadEnToneladas}}</h4>
+      </div>
+      <div class="col-sm-2"></div>
+      <div class="col-sm-2">
+        <button class="btn btn-block btn-info" (click)="bodega.cerrado = !bodega.cerrado">Editar</button>
+        <button class="btn btn-block btn-danger" (click)="borrarBodega(bodega.id)">Borrar</button>
+      </div>
+    </div>
+    <div [hidden]="bodega.cerrado">
+      <form class="animated fadeIn" (ngSubmit)="actualizarBodega(bodega)" #nuevaBodegaForm="ngForm">
+        <div class="form-group">
+          <label>Nombre de la bodega:</label>
+          <input required type="text" class="form-control" name="nombre"
+                 [(ngModel)]="bodega.nombre"
+                 #nombre="ngModel"
+                 #nombreElm>
+        </div>
+        <div class="form-group">
+          <label>Dirección de la bodega:</label>
+          <input required type="text" class="form-control" name="direccion"
+                 [(ngModel)]="bodega.direccion"
+                 #direccion="ngModel"
+                 #direccionElm>
+        </div>
+        <div class="form-group">
+          <label>Capacidad de la bodega (en toneladas):</label>
+          <input required type="number" class="form-control" min="0" name="capacidadEnToneladas"
+                 [(ngModel)]="bodega.capacidadEnToneladas"
+                 #capacidadEnToneladas="ngModel"
+                 #capacidadEnToneladasElm>
+        </div>
+        <button [disabled]="disabledButtons.nuevaBodegaFormButton||!nuevaBodegaForm.valid" type="submit"
+                class="btn btn-block btn-success">Actualizar Registro
+        </button>
+        <button type="button"
+                class="btn btn-block btn-warning"
+                (click)="bodega.cerrado = !bodega.cerrado">
+          Cancelar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
